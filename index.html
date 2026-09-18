@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BizAI</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+header{
+  background:#111827;
+  color:white;
+  padding:22px 20px;
+  text-align:center;
+}
+header h1{margin:0;font-size:30px}
+header p{margin:6px 0 0;color:#cbd5e1}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 5px 20px #00000012;
+}
+
+h2{margin-top:0}
+
+.quick{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.quick button{
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#eef2ff;
+  color:#3730a3;
+  font-weight:bold;
+}
+
+.chat{
+  height:300px;
+  overflow-y:auto;
+  padding:10px;
+  background:#f8fafc;
+  border-radius:14px;
+}
+
+.message{
+  padding:12px 14px;
+  border-radius:14px;
+  margin:8px 0;
+  max-width:85%;
+}
+
+.ai{
+  background:#e2e8f0;
+  margin-right:auto;
+}
+
+.user{
+  background:#111827;
+  color:white;
+  margin-left:auto;
+}
+
+.input{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+input{
+  flex:1;
+  padding:14px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  outline:none;
+}
+
+.send{
+  border:0;
+  background:#111827;
+  color:white;
+  padding:0 20px;
+  border-radius:12px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🤖 BizAI</h1>
+  <p>AI-powered business assistant</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Business Assistant</h2>
+
+<div class="chat" id="chat">
+  <div class="message ai">
+    👋 Hi! I'm BizAI.<br><br>
+    I can help you with business ideas, marketing, customers, pricing and product promotion.
+  </div>
+</div>
+
+<div class="input">
+<input id="input" placeholder="Ask BizAI anything...">
+<button class="send" onclick="sendMessage()">Send</button>
+</div>
+</div>
+
+<div class="card">
+<h2>Quick Tools</h2>
+
+<div class="quick">
+<button onclick="quick('Give me a business idea')">💡 Business Idea</button>
+<button onclick="quick('How can I market my product?')">📢 Marketing</button>
+<button onclick="quick('How can I increase product demand?')">📈 Demand</button>
+<button onclick="quick('Help me set a price')">💰 Pricing</button>
+</div>
+</div>
+
+</div>
+
+<script>
+const chat=document.getElementById("chat");
+const input=document.getElementById("input");
+
+function addMessage(text,type){
+  const div=document.createElement("div");
+  div.className="message "+type;
+  div.innerHTML=text;
+  chat.appendChild(div);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function quick(text){
+  input.value=text;
+  sendMessage();
+}
+
+function sendMessage(){
+  const text=input.value.trim();
+  if(!text)return;
+
+  addMessage(text,"user");
+  input.value="";
+
+  setTimeout(()=>{
+    let reply="";
+
+    const q=text.toLowerCase();
+
+    if(q.includes("idea")){
+      reply="💡 Try building a business around a specific customer problem. Start small, test demand, then improve the product based on customer feedback.";
+    }
+    else if(q.includes("market")){
+      reply="📢 Start with social media content, short videos, customer reviews and demonstrations. Show people why your product is useful instead of only showing the product.";
+    }
+    else if(q.includes("demand")){
+      reply="📈 To increase demand: understand your customers, make the product attractive, create a clear benefit, build trust and give people a reason to try it.";
+    }
+    else if(q.includes("price")){
+      reply="💰 Calculate your total cost first. Then add your desired profit margin and compare the final price with similar products in your market.";
+    }
+    else if(q.includes("customer")){
+      reply="👥 Find out what your customers actually need. Ask questions, observe what they buy and use their feedback to improve your product.";
+    }
+    else{
+      reply="🤖 Good question! Think about three things: What problem are you solving? Who has that problem? Why would they choose your product?";
+    }
+
+    addMessage(reply,"ai");
+  },500);
+}
+
+input.addEventListener("keypress",function(e){
+  if(e.key==="Enter")sendMessage();
+});
+</script>
+
+</body>
+</html>
